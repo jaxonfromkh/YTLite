@@ -302,7 +302,7 @@ jobs:
         with:
           name: YouTubePlus v${{ inputs.yt_version }}
           files: YouTubePlus_v${{ inputs.yt_version }}.ipa
-          draft: false
+          tag_name: v${{ inputs.yt_version }}
 
       - name: Output Release URL
         run: |
