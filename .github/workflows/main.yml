@@ -47,7 +47,7 @@ on:
         type: string
 
       yt_version:
-        description: "The version of the tweak to use. Enter the version manually from dayanch96/YTLite/releases or leave default"
+        description: "The version of the youtube. Enter the version"
         default: "20.21.6"
         required: true
         type: string
@@ -298,7 +298,7 @@ jobs:
           cyan -i youtube.ipa -o YouTubePlus_${{ inputs.yt_version }}.ipa -uwef $tweaks -n "${{ inputs.display_name }}" -b ${{ inputs.bundle_id }}
 
       - name: Upload to GitHub Releases
-        uses: softprops/action-gh-release@v2.0.1
+        uses: softprops/action-gh-release@v2.0.6
         with:
           name: ${{ inputs.tweak_version }} - YouTube v${{ inputs.yt_version }}
           files: YouTubePlus_${{ inputs.yt_version }}.ipa
