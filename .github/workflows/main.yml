@@ -46,6 +46,12 @@ on:
         required: true
         type: string
 
+      yt_version:
+        description: "The version of the tweak to use. Enter the version manually from dayanch96/YTLite/releases or leave default"
+        default: "20.21.6"
+        required: true
+        type: string
+
       display_name:
         description: "App Name (Optional)"
         default: "YouTube"
@@ -295,14 +301,14 @@ jobs:
             fi
           done
 
-          cyan -i youtube.ipa -o YouTubePlus_${{ inputs.tweak_version }}.ipa -uwef $tweaks -n "${{ inputs.display_name }}" -b ${{ inputs.bundle_id }}
+          cyan -i youtube.ipa -o YouTubePlus_${{ inputs.yt_version }}.ipa -uwef $tweaks -n "${{ inputs.display_name }}" -b ${{ inputs.bundle_id }}
 
       - name: Upload to GitHub Releases
         uses: softprops/action-gh-release@v2.0.1
         with:
-          name: YouTubePlus v${{ inputs.tweak_version }} (${{ github.run_number }})
-          files: YouTubePlus_${{ inputs.tweak_version }}.ipa
-          draft: true
+          name: YouTubePlus v${{ inputs.yt_version }}
+          files: YouTubePlus_v${{ inputs.yt_version }}.ipa
+          draft: false
 
       - name: Output Release URL
         run: |
