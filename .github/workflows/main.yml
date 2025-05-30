@@ -301,8 +301,8 @@ jobs:
         uses: softprops/action-gh-release@v2.0.1
         with:
           name: YouTubePlus v${{ inputs.yt_version }}
-          files: YouTubePlus_v${{ inputs.yt_version }}.ipa
-          tag_name: v${{ inputs.yt_version }}
+          files: YouTubePlus_${{ inputs.yt_version }}.ipa
+          tag_name: ${{ inputs.yt_version }}
 
       - name: Output Release URL
         run: |
