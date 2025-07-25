@@ -48,7 +48,7 @@ on:
         
       yt_version:
         description: "The version of the youtube. Enter the version"
-        default: "20.21.6"
+        default: "20.29.3"
         required: true
         type: string
 
