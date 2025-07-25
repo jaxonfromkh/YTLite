@@ -45,6 +45,12 @@ on:
         default: "5.2b2"
         required: true
         type: string
+        
+      yt_version:
+        description: "The version of the youtube. Enter the version"
+        default: "20.21.6"
+        required: true
+        type: string
 
       display_name:
         description: "App Name (Optional)"
@@ -85,7 +91,7 @@ jobs:
       - name: Hide sensitive inputs
         uses: levibostian/action-hide-sensitive-inputs@v1
         with:
-          exclude_inputs: bundle_id,display_name,enable_demc,enable_ryd,enable_youpip,enable_yq,enable_ytuhd,info_note,tweak_version
+          exclude_inputs: bundle_id,display_name,enable_demc,enable_ryd,enable_youpip,enable_yq,enable_ytuhd,yt_version,tweak_version
 
       - name: Download and validate IPA
         run: |
@@ -300,15 +306,14 @@ jobs:
             fi
           done
 
-          cyan -i youtube.ipa -o YouTubePlus_${{ inputs.tweak_version }}.ipa -uwef $tweaks -n "${{ inputs.display_name }}" -b ${{ inputs.bundle_id }}
+          cyan -i youtube.ipa -o YouTubePlus_${{ inputs.yt_version }}.ipa -uwef $tweaks -n "${{ inputs.display_name }}" -b ${{ inputs.bundle_id }}
 
       - name: Upload to GitHub Releases
-        uses: softprops/action-gh-release@v2.0.1
+        uses: softprops/action-gh-release@v2.0.6
         with:
-          tag_name: ytp-${{ github.run_number }}
-          name: YouTubePlus v${{ inputs.tweak_version }} (${{ github.run_number }})
-          files: YouTubePlus_${{ inputs.tweak_version }}.ipa
-          draft: true
+          name: ${{ inputs.tweak_version }} - YouTube v${{ inputs.yt_version }}
+          files: YouTubePlus_${{ inputs.yt_version }}.ipa
+          tag_name: ${{ inputs.tweak_version }}-v${{ inputs.yt_version }}
 
       - name: Output Release URL
         run: |
