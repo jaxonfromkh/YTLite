@@ -91,6 +91,10 @@ jobs:
         run: |
           wget "${{ inputs.ipa_url }}" --no-verbose -O ${{ github.workspace }}/youtube.ipa
 
+          unzip -q ${{ github.workspace }}/YouTube.ipa -d ${{ github.workspace }}/tmp
+          
+          echo "YT_VERSION=$(grep -A 1 '<key>CFBundleVersion</key>' ${{ github.workspace }}/tmp/Payload/YouTube.app/Info.plist | grep '<string>' | awk -F'[><]' '{print $3}')" >> $GITHUB_ENV
+          
           file_type=$(file --mime-type -b ${{ github.workspace }}/youtube.ipa)
 
           if [[ "$file_type" != "application/x-ios-app" && "$file_type" != "application/zip" ]]; then
@@ -305,14 +309,14 @@ jobs:
             fi
           done
 
-          cyan -i youtube.ipa -o YouTubePlus_${{ inputs.yt_version }}.ipa -uwef $tweaks -n "${{ inputs.display_name }}" -b ${{ inputs.bundle_id }}
+          cyan -i youtube.ipa -o YouTubePlus_${{ env.YT_VERSION }}.ipa -uwef $tweaks -n "${{ inputs.display_name }}" -b ${{ inputs.bundle_id }}
 
       - name: Upload to GitHub Releases
         uses: softprops/action-gh-release@v2.0.6
         with:
-          name: ${{ inputs.tweak_version }} - YouTube v${{ inputs.yt_version }}
-          files: YouTubePlus_${{ inputs.yt_version }}.ipa
-          tag_name: ${{ inputs.tweak_version }}-v${{ inputs.yt_version }}
+          name: ${{ inputs.tweak_version }} - YouTube v${{ env.YT_VERSION }}
+          files: YouTubePlus_${{ env.YT_VERSION }}.ipa
+          tag_name: ${{ inputs.tweak_version }}-v${{ env.YT_VERSION }}
 
       - name: Output Release URL
         run: |
